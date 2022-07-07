@@ -1,4 +1,4 @@
-declare module "myPackage" {
+declare module "myPackage2" {
   export interface Config {
     url: string;
   }

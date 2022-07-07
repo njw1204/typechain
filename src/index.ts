@@ -1,4 +1,4 @@
-import { exit, init } from "myPackage";
+import { exit, init } from "./myPackage";
 
 class Block {
   constructor(private data: string) {}
