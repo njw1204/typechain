@@ -1,3 +1,4 @@
+import _ from "lodash";
 import crypto from "crypto";
 
 interface Block {
@@ -22,12 +23,14 @@ class MyBlock implements Block {
     return crypto
       .createHash("sha256")
       .update(
-        JSON.stringify({
-          prevHash,
-          height,
-          data,
-        })
+        JSON.stringify(
+          _.toPairs({
+            prevHash,
+            height,
+            data,
+          })
+        )
       )
-      .digest("base64");
+      .digest("hex");
   }
 }
