@@ -19,7 +19,7 @@ class MyBlock implements Block {
     this.hash = MyBlock.calculateHash(prevHash, height, data);
   }
 
-  private static calculateHash(prevHash: string, height: number, data: string) {
+  static calculateHash(prevHash: string, height: number, data: string) {
     return crypto
       .createHash("sha256")
       .update(
@@ -34,3 +34,32 @@ class MyBlock implements Block {
       .digest("hex");
   }
 }
+
+class MyBlockChain {
+  private blocks: MyBlock[] = [];
+
+  getBlocks() {
+    return [...this.blocks];
+  }
+
+  addBlock(data: string) {
+    this.blocks.push(new MyBlock(this.getPrevHash(), this.blocks.length, data));
+  }
+
+  private getPrevHash(): string {
+    if (this.blocks.length === 0) {
+      return "";
+    }
+
+    return this.blocks[this.blocks.length - 1].hash;
+  }
+}
+
+const blockchain = new MyBlockChain();
+
+blockchain.addBlock("FIRST");
+blockchain.addBlock("SECOND");
+blockchain.addBlock("THIRD");
+blockchain.addBlock("FOURTH");
+
+console.log(blockchain.getBlocks());
