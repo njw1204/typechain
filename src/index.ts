@@ -1,10 +1,33 @@
-import { exit, init } from "./myPackage";
+import crypto from "crypto";
 
-class Block {
-  constructor(private data: string) {}
-  static hello() {
-    init({ url: "test" });
-    exit(1);
-    return document.querySelector(".hello");
+interface Block {
+  hash: string;
+  prevHash: string;
+  height: number;
+  data: string;
+}
+
+class MyBlock implements Block {
+  public readonly hash: string;
+
+  constructor(
+    public readonly prevHash: string,
+    public readonly height: number,
+    public readonly data: string
+  ) {
+    this.hash = MyBlock.calculateHash(prevHash, height, data);
+  }
+
+  private static calculateHash(prevHash: string, height: number, data: string) {
+    return crypto
+      .createHash("sha256")
+      .update(
+        JSON.stringify({
+          prevHash,
+          height,
+          data,
+        })
+      )
+      .digest("base64");
   }
 }
